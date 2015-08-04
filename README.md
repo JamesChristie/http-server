@@ -1,5 +1,7 @@
 # Implementation of a Server That Comports With the HTTP 1.1 Secification
 
+[![Build Status](https://travis-ci.org/JamesChristie/http-server.svg?branch=master)](https://travis-ci.org/JamesChristie/http-server)
+
 Or rather: a computer-based method of making electrical signals travel in insignificantly different patterns with the hope that the arbitrary abstractions that are drawn from them help make the world seem like less of a cold, lightless hellscape.
 
 ## Usage
