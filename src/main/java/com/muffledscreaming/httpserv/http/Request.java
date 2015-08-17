@@ -10,6 +10,8 @@ public class Request {
   public static final String PORT_KEY    = "port";
   public static final String BODY_KEY    = "body";
 
+  public static final String HOST_FIELD = "host";
+
   private HashMap<String,String> comprehension;
   private HashMap<String,String> fields;
   private HashMap<String,String> params;
