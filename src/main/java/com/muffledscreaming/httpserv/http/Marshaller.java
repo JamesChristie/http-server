@@ -1,19 +1,24 @@
-package com.muffledscreaming.httpserv.http.marshallers;
+package com.muffledscreaming.httpserv.http;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Fields {
+public class Marshaller {
   public static final String FIELD_ASSIGNMENT = ": ";
+  public static final String PARAM_ASSIGNMENT = "=";
 
   private String rawFields;
+  private String delimiter;
+  private String assignment;
 
   private HashMap marshalled = null;
 
-  public Fields(String rawFields) {
-    this.rawFields = rawFields;
+  public Marshaller(String rawFields, String delimiter, String assignment) {
+    this.rawFields  = rawFields;
+    this.delimiter  = delimiter;
+    this.assignment = assignment;
   }
 
   public HashMap<String,String> marshall() {
@@ -32,7 +37,7 @@ public class Fields {
   private List<String> getFieldList() {
     List<String> fieldList = new ArrayList<String>();
     fieldList.addAll(
-      Arrays.asList(rawFields.split(getDelimiter()))
+      Arrays.asList(rawFields.split(delimiter))
     );
     fieldList.removeAll(new ArrayList<String>() {{ add(""); }});
 
@@ -40,14 +45,10 @@ public class Fields {
   }
 
   private String getKey(String line) {
-    return line.split(FIELD_ASSIGNMENT)[0];
+    return line.split(assignment)[0];
   }
 
   private String getValue(String line) {
-    return line.split(FIELD_ASSIGNMENT)[1];
-  }
-
-  private String getDelimiter() {
-    return com.muffledscreaming.httpserv.http.extractors.Fields.FIELD_DELIMITER;
+    return line.split(assignment)[1];
   }
 }

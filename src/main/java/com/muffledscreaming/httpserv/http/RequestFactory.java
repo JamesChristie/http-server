@@ -7,6 +7,10 @@ import com.muffledscreaming.httpserv.http.extractors.Path;
 import com.muffledscreaming.httpserv.http.extractors.Version;
 import com.muffledscreaming.httpserv.http.extractors.Port;
 import com.muffledscreaming.httpserv.http.extractors.Body;
+import com.muffledscreaming.httpserv.http.extractors.Fields;
+import com.muffledscreaming.httpserv.http.extractors.Params;
+
+import com.muffledscreaming.httpserv.http.Marshaller;
 
 public class RequestFactory {
   private String requestString;
@@ -32,18 +36,18 @@ public class RequestFactory {
   }
 
   public HashMap getFields() {
-    String fieldsString = new com.muffledscreaming.httpserv
-      .http.extractors.Fields(requestString).extract();
+    String fieldsString = new Fields(requestString).extract();
 
-    return new com.muffledscreaming.httpserv
-      .http.marshallers.Fields(fieldsString).marshall();
+    return new Marshaller(
+      fieldsString, Fields.FIELD_DELIMITER, Marshaller.FIELD_ASSIGNMENT
+    ).marshall();
   }
 
   public HashMap getParams() {
-    String paramsString = new com.muffledscreaming.httpserv
-      .http.extractors.Params(requestString).extract();
+    String paramsString = new Params(requestString).extract();
 
-    return new com.muffledscreaming.httpserv
-      .http.marshallers.Params(paramsString).marshall();
+    return new Marshaller(
+      paramsString, Params.PARAM_DELIMITER, Marshaller.PARAM_ASSIGNMENT
+    ).marshall();
   }
 }
