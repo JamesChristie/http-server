@@ -6,45 +6,58 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 
 public class TestRequestFactory {
-  private String requestString;
-  private RequestFactory factory;
-
-  public void setUp() {
-    this.requestString = "PUT / HTTP/1.1\r\n"
-                       + "Host: www.host.com\r\n"
-                       + "UserAgent: Awesomesauce/7.2\r\n"
-                       + "\r\n"
-                       + "somevar=someval";
-
-    this.factory = new RequestFactory(requestString);
-  }
-
   @Test
   public void testComprehensionOfBasicRequest() {
-    HashMap expectedComprehension = new HashMap<String,String>() {{
+    String requestString = "PUT / HTTP/1.1\r\n"
+                         + "Host: www.host.com\r\n"
+                         + "UserAgent: Awesomesauce/7.2\r\n"
+                         + "\r\n"
+                         + "somevar=someval";
+
+    HashMap expected = new HashMap<String,String>() {{
+      put("method",  "PUT");
+      put("path",    "/");
+      put("version", "1.1");
+      put("port",    "80");
+      put("body",    "somevar=someval");
     }};
 
-    HashMap actualComprehension = factory.getComprehension();
+    HashMap actual = new RequestFactory(requestString).getComprehension();
 
-    assertEquals(expectedComprehension, actualComprehension);
+    assertEquals(expected, actual);
   }
 
   @Test
   public void testFieldsOfBasicRequest() {
+    String requestString = "PUT / HTTP/1.1\r\n"
+                         + "Host: www.host.com\r\n"
+                         + "UserAgent: Awesomesauce/7.2\r\n"
+                         + "\r\n"
+                         + "somevar=someval";
+
     HashMap expectedFields = new HashMap<String,String>() {{
+      put("Host", "www.host.com");
+      put("UserAgent", "Awesomesauce/7.2");
     }};
 
-    HashMap actualFields = factory.getFields();
+    HashMap actualFields = new RequestFactory(requestString).getFields();
 
     assertEquals(expectedFields, actualFields);
   }
 
   @Test
   public void testParamsOfBasicRequest() {
+    String requestString = "PUT / HTTP/1.1\r\n"
+                         + "Host: www.host.com\r\n"
+                         + "UserAgent: Awesomesauce/7.2\r\n"
+                         + "\r\n"
+                         + "somevar=someval";
+
     HashMap expectedParams = new HashMap<String,String>() {{
+      put("somevar", "someval");
     }};
 
-    HashMap actualParams = factory.getParams();
+    HashMap actualParams = new RequestFactory(requestString).getParams();
 
     assertEquals(expectedParams, actualParams);
   }
