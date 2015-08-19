@@ -17,6 +17,10 @@ public class RequestValidator {
 
   private Request request;
 
+  public static boolean isValid(Request request) {
+    return new RequestValidator(request).isValid();
+  }
+
   public RequestValidator(Request request) {
     this.request = request;
   }

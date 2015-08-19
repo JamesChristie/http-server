@@ -12,6 +12,11 @@ public class Worker {
   public void perform() {
     // read
     // handle
+    //   build request
+    //   if validate request
+    //     process request in handler
+    //   else
+    //     process request in generic bad request handler
     // write
   }
 }
