@@ -11,6 +11,7 @@ public class Mocket extends Socket {
   private String hostName;
   private int port;
   private String input;
+  private OutputStream output;
 
   public Mocket(String hostName, int port) {
     this.hostName = hostName;
@@ -22,6 +23,11 @@ public class Mocket extends Socket {
     this.input = input;
   }
 
+  public Mocket(String hostName, int port, OutputStream output) {
+    this(hostName, port);
+    this.output = output;
+  }
+
   public InputStream getInputStream() {
     return new ByteArrayInputStream(
       input.getBytes(StandardCharsets.UTF_8)
@@ -29,7 +35,11 @@ public class Mocket extends Socket {
   }
 
   public OutputStream getOutputStream() {
-    return new ByteArrayOutputStream();
+    if (output == null) {
+      return new ByteArrayOutputStream();
+    } else {
+      return output;
+    }
   }
 
   public void close() {

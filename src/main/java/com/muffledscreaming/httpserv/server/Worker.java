@@ -11,8 +11,8 @@ public class Worker {
 
   public void perform() {
     // read
-    // handle
     //   build request
+    // handle
     //   if validate request
     //     process request in handler
     //   else
