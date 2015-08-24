@@ -58,6 +58,30 @@ public class Request {
     return params.getOrDefault(param, "");
   }
 
+  public boolean isGet() {
+    return getMethod().equals(Strings.GET_METHOD);
+  }
+
+  public boolean isPost() {
+    return getMethod().equals(Strings.POST_METHOD);
+  }
+
+  public boolean isPut() {
+    return getMethod().equals(Strings.PUT_METHOD);
+  }
+
+  public boolean isDelete() {
+    return getMethod().equals(Strings.DELETE_METHOD);
+  }
+
+  public boolean isOptions() {
+    return getMethod().equals(Strings.OPTIONS_METHOD);
+  }
+
+  public boolean isPatch() {
+    return getMethod().equals(Strings.PATCH_METHOD);
+  }
+
   private String getComprehension(String key) {
     return comprehension.getOrDefault(key, "");
   }

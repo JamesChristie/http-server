@@ -27,7 +27,7 @@ public class Fields {
   private List<String> getAllFields() {
     if (allFields == null) {
       this.allFields = Arrays.asList(
-        Regexer.getAllMatches(requestString, "[a-zA-Z]+:(.*)(?=\r\n)")
+        Regexer.getAllMatches(requestString, "(?<=\r\n)[a-zA-Z\\W]+:(.*)(?=\r\n)")
       );
     }
 

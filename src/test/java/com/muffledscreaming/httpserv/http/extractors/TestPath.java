@@ -23,4 +23,11 @@ public class TestPath {
                          + "Host: subdomain.otherthing.biz\r\n";
     assertEquals("/some/path", new Path(requestString).extract());
   }
+
+  @Test
+  public void testRequestWithNumbers() {
+    String requestString = "GET /path123thing HTTP/1.1\r\n"
+                         + "Host: www.host.com\r\n";
+    assertEquals("/path123thing", new Path(requestString).extract());
+  }
 }

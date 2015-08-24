@@ -17,14 +17,14 @@ public class SocketExtractor {
 
   public String perform() throws IOException {
     String nextLine;
-    String compiled = "";
+    String rawRequest = "";
     BufferedReader input = getInputReader();
 
-    while ((nextLine = input.readLine()) != null) {
-      compiled += nextLine;
+    while (input.ready() || rawRequest.length() == 0) {
+      rawRequest += (char)input.read();
     }
 
-    return compiled;
+    return rawRequest;
   }
 
   private BufferedReader getInputReader() throws IOException {

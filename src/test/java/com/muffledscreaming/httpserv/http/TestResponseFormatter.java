@@ -39,4 +39,33 @@ public class TestResponseFormatter {
 
     assertEquals(expectedResponse, actualResponse);
   }
+
+  public class MockResponseWithoutHeaders extends Response {
+    public MockResponseWithoutHeaders() {
+      super();
+    }
+
+    public String getStatusCode() {
+      return "200";
+    }
+
+    public String getStatusMessage() {
+      return "OK";
+    }
+
+    public String getBody() {
+      return "<html>zogmwtfbbq</html>";
+    }
+  }
+
+  @Test
+  public void testFormattedStringWithoutHeaders() {
+    String expectedResponse = "HTTP/1.1 200 OK\r\n" +
+                              "\r\n" +
+                              "<html>zogmwtfbbq</html>";
+
+    String actualResponse = new ResponseFormatter(new MockResponseWithoutHeaders()).perform();
+
+    assertEquals(expectedResponse, actualResponse);
+  }
 }

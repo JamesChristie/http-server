@@ -7,7 +7,15 @@ import java.util.Arrays;
 public class RequestValidator {
   private static final Set validMethods = new HashSet(
     Arrays.asList(new String[] {
-      "GET", "HEAD", "POST", "PUT", "DELETE", "TRACE", "CONNECT"
+      Strings.OPTIONS_METHOD,
+      Strings.GET_METHOD,
+      Strings.HEAD_METHOD,
+      Strings.POST_METHOD,
+      Strings.PUT_METHOD,
+      Strings.DELETE_METHOD,
+      Strings.TRACE_METHOD,
+      Strings.CONNECT_METHOD,
+      Strings.PATCH_METHOD
     })
   );
 
@@ -35,8 +43,7 @@ public class RequestValidator {
   public boolean requiredComponentsArePresent() {
     return !request.getMethod().isEmpty() &&
       !request.getPath().isEmpty() &&
-      !request.getVersion().isEmpty() &&
-      !request.getFields().isEmpty();
+      !request.getVersion().isEmpty();
   }
 
   public boolean methodIsValid() {

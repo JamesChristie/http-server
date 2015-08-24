@@ -4,17 +4,17 @@ import java.net.Socket;
 
 import com.muffledscreaming.httpserv.http.Request;
 import com.muffledscreaming.httpserv.http.Response;
-import com.muffledscreaming.httpserv.server.ReadCommand;
-import com.muffledscreaming.httpserv.server.WriteCommand;
+import com.muffledscreaming.httpserv.http.ResponseFormatter;
+import com.muffledscreaming.httpserv.http.responses.BadRequest;
+import com.muffledscreaming.httpserv.http.responses.InternalServerError;
 import com.muffledscreaming.httpserv.exception.HttpservException;
+import com.muffledscreaming.httpserv.exception.InvalidRequest;
 
 public class Worker implements Runnable {
   private Socket clientSocket;
-  private Handler handler;
 
-  public Worker(Socket clientSocket, Handler handler) {
+  public Worker(Socket clientSocket) {
     this.clientSocket = clientSocket;
-    this.handler      = handler;
   }
 
   public void run() {
@@ -23,8 +23,14 @@ public class Worker implements Runnable {
   }
 
   private void handleRequest() throws HttpservException {
-    Request request   = new ReadCommand(clientSocket).perform();
-    Response response = handler.perform(request);
-    new WriteCommand(clientSocket, response).perform();
+    try {
+      Request request   = new ReadCommand(clientSocket).perform();
+      Response response = Router.dispatch(request);
+      new WriteCommand(clientSocket, response).perform();
+    } catch (InvalidRequest err) {
+      new WriteCommand(clientSocket, new BadRequest()).perform();
+    } catch (HttpservException err) {
+      new WriteCommand(clientSocket, new InternalServerError()).perform();
+    }
   }
 }

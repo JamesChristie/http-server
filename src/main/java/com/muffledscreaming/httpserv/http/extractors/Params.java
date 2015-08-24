@@ -45,7 +45,7 @@ public class Params {
   }
 
   private List<String> getBodyParams() {
-    String params = Regexer.getFirstMatch(requestString, "(?<=\r\n\r\n)(.*)");
+    String params = Regexer.getFirstMatch(requestString, "(?<=\r\n\r\n)[a-zA-Z\\W]+=+&?(.*)$");
     return Arrays.asList(params.split(PARAM_DELIMITER));
   }
 }

@@ -37,4 +37,19 @@ public class TestParams {
     String expectedParams = "somevar=someval&othervar=otherval";
     assertEquals(expectedParams, new Params(requestString).extract());
   }
+
+  @Test
+  public void testBodyWithoutParams() {
+    String requestString  = "PATCH /patch-content.txt HTTP/1.1\r\n" +
+                            "If-Match: dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec\r\n" +
+                            "Content-Length: 15\r\n" +
+                            "Host: localhost:5000\r\n" +
+                            "Connection: Keep-Alive\r\n" +
+                            "User-Agent: Apache-HttpClient/4.3.5 (java 1.5)\r\n" +
+                            "Accept-Encoding: gzip,deflate\r\n" +
+                            "\r\n" +
+                            "patched content";
+    String expectedParams = "";
+    assertEquals(expectedParams, new Params(requestString).extract());
+  }
 }

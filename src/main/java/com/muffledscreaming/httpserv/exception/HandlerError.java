@@ -1,6 +1,5 @@
 package com.muffledscreaming.httpserv.exception;
 
-import com.muffledscreaming.httpserv.http.Request;
 import com.muffledscreaming.httpserv.server.Handler;
 
 public class HandlerError extends HttpservException {

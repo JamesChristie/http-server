@@ -12,16 +12,22 @@ public class ResponseFormatter {
 
   public String perform() {
     return String.format(
-      "HTTP/%s %s %s\r\n%s\r\n\r\n%s",
+      "HTTP/%s %s %s%s%s",
       response.getVersion(),
       response.getStatusCode(),
       response.getStatusMessage(),
       formatHeaders(),
-      response.getBody()
+      formatBody()
     );
   }
 
   private String formatHeaders() {
+    String headers = joinHeaders();
+    if(headers.isEmpty()) { return ""; }
+    else { return "\r\n" + headers; }
+  }
+
+  private String joinHeaders() {
     List<String> pairedHeaders = new ArrayList<String>();
 
     for (String header : (List<String>)response.alphabatizedHeaders()) {
@@ -31,5 +37,13 @@ public class ResponseFormatter {
     }
 
     return String.join("\r\n", pairedHeaders);
+  }
+
+  private String formatBody() {
+    if (response.getBody() == null) {
+      return "";
+    } else {
+      return "\r\n\r\n" + response.getBody();
+    }
   }
 }

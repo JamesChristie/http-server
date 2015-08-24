@@ -34,6 +34,10 @@ public class TestRequestValidator {
       if (field.toLowerCase().equals("host")) { return "www.host.com"; }
       return "";
     }
+
+    public String getBody() {
+      return "";
+    }
   }
 
   @Test
@@ -62,6 +66,10 @@ public class TestRequestValidator {
     }
 
     public String getFieldValue(String field) {
+      return "";
+    }
+
+    public String getBody() {
       return "";
     }
   }

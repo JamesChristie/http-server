@@ -7,14 +7,16 @@ import java.io.IOException;
 public class RunnableServer implements Runnable {
   private int port;
   private ServerSocket socket;
+  private boolean shutDown;
 
   public RunnableServer(int port) {
-    this.port = port;
+    this.port     = port;
+    this.shutDown = false;
     createSocket();
   }
 
   public void run() {
-    while (!socket.isClosed()) {
+    while (!shutDown) {
       try { runWorker(); }
       catch (IOException socketError) {
         throw new RuntimeException("Could not read socket", socketError);
@@ -22,15 +24,15 @@ public class RunnableServer implements Runnable {
     }
   }
 
-  private void listen() {
+  private void runWorker() throws IOException {
+    Socket clientSocket = socket.accept();
+    new Thread(
+      new Worker(clientSocket)
+    ).start();
   }
 
   public synchronized void stop() {
-    try {
-      socket.close();
-    } catch (IOException socketError) {
-      throw new RuntimeException("Could not close socket");
-    }
+    this.shutDown = true;
   }
 
   private void createSocket() {
@@ -41,10 +43,11 @@ public class RunnableServer implements Runnable {
     }
   }
 
-  private void runWorker() throws IOException {
-    Socket clientSocket = socket.accept();
-    new Thread(
-      new Worker(clientSocket, new CobHandler())
-    ).start();
+  private void closeSocket() {
+    try {
+      socket.close();
+    } catch (IOException socketError) {
+      throw new RuntimeException("Could not close socket");
+    }
   }
 }

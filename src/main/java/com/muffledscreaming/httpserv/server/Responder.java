@@ -1,15 +1,12 @@
 package com.muffledscreaming.httpserv.server;
 
-import java.net.Socket;
-import java.util.HashMap;
-
 import com.muffledscreaming.httpserv.http.Request;
 import com.muffledscreaming.httpserv.http.Response;
 
-public abstract class Handler {
-  protected Request request;
+public abstract class Responder {
+  private Request request;
 
-  public Handler(Request request) {
+  public Responder(Request request) {
     this.request = request;
   }
 

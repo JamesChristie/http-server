@@ -11,7 +11,12 @@ import com.muffledscreaming.httpserv.mock.Mocket;
 public class TestSocketExtractor {
   @Test
   public void testSocketExtraction() {
-    Socket mocket          = new Mocket("localhost", 80, "test");
+    String requestString = "POST /some/path HTTP/1.1\r\n" +
+                           "Host: localhost\r\n" +
+                           "\r\n" +
+                           "someVar=someVal\r\n";
+
+    Socket mocket          = new Mocket("localhost", 80, requestString);
     String extractedString = "";
 
     try {
@@ -20,6 +25,6 @@ public class TestSocketExtractor {
       System.err.println(readError.getMessage());
     }
 
-    assertEquals("test", extractedString);
+    assertEquals(requestString, extractedString);
   }
 }

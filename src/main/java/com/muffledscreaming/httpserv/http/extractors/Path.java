@@ -10,6 +10,6 @@ public class Path {
   }
 
   public String extract() {
-    return Regexer.getFirstMatch(requestString, "(?<= )\\/[a-zA-Z\\/.]*");
+    return Regexer.getFirstMatch(requestString, "(?<= )\\/[^\\s?]*");
   }
 }
