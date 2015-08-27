@@ -4,15 +4,35 @@ import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.IOException;
 
+import com.muffledscreaming.httpserv.server.ServerSettings;
+
 public class RunnableServer implements Runnable {
-  private int port;
+  private ServerSettings settings;
   private ServerSocket socket;
   private boolean shutDown;
 
-  public RunnableServer(int port) {
-    this.port     = port;
+  private static RunnableServer instance;
+
+  public static RunnableServer getInstance(ServerSettings settings) {
+    if (instance == null) {
+      instance = new RunnableServer(settings);
+    }
+
+    return instance;
+  }
+
+  private RunnableServer(ServerSettings settings) {
+    this.settings = settings;
     this.shutDown = false;
     createSocket();
+  }
+
+  public int getPort() {
+    return settings.getPort();
+  }
+
+  public String getPublicPath() {
+    return settings.getPublicPath();
   }
 
   public void run() {
@@ -37,7 +57,7 @@ public class RunnableServer implements Runnable {
 
   private void createSocket() {
     try {
-      this.socket = new ServerSocket(port);
+      this.socket = new ServerSocket(settings.getPort());
     } catch (IOException socketError) {
       throw new RuntimeException("Could not open socket", socketError);
     }
