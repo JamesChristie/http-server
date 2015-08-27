@@ -5,14 +5,13 @@ import com.muffledscreaming.httpserv.server.Router;
 public class Routes {
   public static void buildRoutes() {
     Router.register("/",                    "GET",     RootHandler.class);
+    Router.register("/file1",               "GET",     FileHandler.class);
+    Router.register("/file1",               "PUT",     FileHandler.class);
+    Router.register("/text-file.txt",       "POST",    FileHandler.class);
+    Router.register("/image.gif",           "GET",     ImageHandler.class);
+    Router.register("/image.jpeg",          "GET",     ImageHandler.class);
+    Router.register("/image.png",           "GET",     ImageHandler.class);
     Router.register("/logs",                "GET",     LogsHandler.class);
-    Router.register("/foobar",              "GET",     FoobarHandler.class);
-    Router.register("/file1",               "GET",     FileOneHandler.class);
-    Router.register("/file1",               "PUT",     FileOneHandler.class);
-    Router.register("/text-file.txt",       "POST",    FileOneHandler.class);
-    Router.register("/image.gif",           "GET",     FileOneHandler.class);
-    Router.register("/image.jpeg",          "GET",     FileOneHandler.class);
-    Router.register("/image.png",           "GET",     FileOneHandler.class);
     Router.register("/partial_content.txt", "GET",     PartialHandler.class);
     Router.register("/form",                "GET",     FormHandler.class);
     Router.register("/form",                "POST",    FormHandler.class);

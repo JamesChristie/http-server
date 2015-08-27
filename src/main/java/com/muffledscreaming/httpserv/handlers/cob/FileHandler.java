@@ -9,15 +9,13 @@ import com.muffledscreaming.httpserv.http.responses.Ok;
 import com.muffledscreaming.httpserv.http.responses.MethodNotAllowed;
 import com.muffledscreaming.httpserv.http.responses.InternalServerError;
 
-import java.nio.file.Paths;
-public class FileOneHandler extends Handler {
-  public FileOneHandler(Request request) {
+public class FileHandler extends Handler {
+  public FileHandler(Request request) {
     super(request);
   }
 
   public Response perform() {
     if (request.isGet()) {
-      System.out.println(Paths.get(getPath().toString(), request.getPath()));
       return getOkResponse();
     } else {
       return new MethodNotAllowed();
