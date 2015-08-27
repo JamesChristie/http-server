@@ -2,6 +2,8 @@ package com.muffledscreaming.httpserv.server;
 
 import java.net.Socket;
 import java.net.ServerSocket;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.IOException;
 
 import com.muffledscreaming.httpserv.server.ServerSettings;
@@ -12,6 +14,10 @@ public class RunnableServer implements Runnable {
   private boolean shutDown;
 
   private static RunnableServer instance;
+
+  public static RunnableServer getInstance() {
+    return instance;
+  }
 
   public static RunnableServer getInstance(ServerSettings settings) {
     if (instance == null) {
@@ -31,8 +37,8 @@ public class RunnableServer implements Runnable {
     return settings.getPort();
   }
 
-  public String getPublicPath() {
-    return settings.getPublicPath();
+  public Path getPublicPath() {
+    return Paths.get(settings.getPublicPath());
   }
 
   public void run() {
