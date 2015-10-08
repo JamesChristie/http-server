@@ -8,9 +8,9 @@ public class Routes {
     Router.register("/file1",               "GET",     FileHandler.class);
     Router.register("/file1",               "PUT",     FileHandler.class);
     Router.register("/text-file.txt",       "POST",    FileHandler.class);
-    Router.register("/image.gif",           "GET",     ImageHandler.class);
-    Router.register("/image.jpeg",          "GET",     ImageHandler.class);
-    Router.register("/image.png",           "GET",     ImageHandler.class);
+    Router.register("/image.gif",           "GET",     FileHandler.class);
+    Router.register("/image.jpeg",          "GET",     FileHandler.class);
+    Router.register("/image.png",           "GET",     FileHandler.class);
     Router.register("/logs",                "GET",     LogsHandler.class);
     Router.register("/partial_content.txt", "GET",     PartialHandler.class);
     Router.register("/form",                "GET",     FormHandler.class);
