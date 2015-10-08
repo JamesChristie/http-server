@@ -1,6 +1,7 @@
 package com.muffledscreaming.httpserv.handlers.cob;
 
 import java.io.IOException;
+import java.io.ByteArrayInputStream;
 
 import com.muffledscreaming.httpserv.server.Handler;
 import com.muffledscreaming.httpserv.http.Request;
@@ -25,7 +26,9 @@ public class FileHandler extends Handler {
   private Response getOkResponse() {
     try {
       Response ok = new Ok();
-      ok.setBody(getFileContents());
+      ok.setBody(
+        new ByteArrayInputStream(getFileContents())
+      );
       return ok;
     } catch (IOException readError) {
       return new InternalServerError();

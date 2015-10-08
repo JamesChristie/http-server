@@ -1,6 +1,7 @@
 package com.muffledscreaming.httpserv.server;
 
 import java.net.Socket;
+import java.io.InputStream;
 import java.io.IOException;
 
 import com.muffledscreaming.httpserv.http.Response;
@@ -18,14 +19,14 @@ public class WriteCommand {
 
   public void perform() throws WriteException {
     try {
-      String responseString = getResponseString();
-      new SocketWriter(socket).dispatchResponse(responseString);
+      InputStream responseStream = getResponseStream();
+      new SocketWriter(socket).dispatchResponse(responseStream);
     } catch (IOException writeError) {
       throw new WriteException("A write error has occured", writeError);
     }
   }
 
-  private String getResponseString() {
+  private InputStream getResponseStream() {
     return new ResponseFormatter(response).perform();
   }
 }

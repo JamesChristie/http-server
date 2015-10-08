@@ -1,5 +1,6 @@
 package com.muffledscreaming.httpserv.handlers.cob;
 
+import java.util.ArrayList;
 import java.nio.file.Files;
 import java.io.IOException;
 import java.lang.NullPointerException;
@@ -27,10 +28,14 @@ public class RootHandler extends Handler {
   }
 
   private void addFiles(Response response) throws IOException {
+    ArrayList<String> fileList = new ArrayList<String>();
+
     Files.walk(getPath()).forEach(filePath -> {
       String fileName = filePath.getFileName().toString();
-      response.setBody(response.getBody() + generateLink(fileName));
+      fileList.add(generateLink(fileName));
     });
+
+    response.setBody(String.join("", fileList));
   }
 
   private String generateLink(String fileName) {

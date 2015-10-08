@@ -24,9 +24,8 @@ public abstract class Handler {
     return RunnableServer.getInstance().getPublicPath();
   }
 
-  protected String getFileContents() throws IOException {
+  protected byte[] getFileContents() throws IOException {
     Path path = Paths.get(getPath().toString(), request.getPath());
-    byte[] fileBytes = Files.readAllBytes(path);
-    return new String(fileBytes);
+    return Files.readAllBytes(path);
   }
 }

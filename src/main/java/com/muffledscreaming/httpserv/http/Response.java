@@ -4,12 +4,15 @@ import java.util.Set;
 import java.util.List;
 import java.util.HashMap;
 import java.util.stream.Collectors;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 public abstract class Response {
   private static final String DEFAULT_VERSION = "1.1";
 
   protected String version;
-  protected String body;
+  protected InputStream body;
   protected HashMap<String,String> headers;
 
   public Response() {
@@ -29,8 +32,12 @@ public abstract class Response {
 
   public abstract String getStatusMessage();
 
-  public String getBody() {
-    return body;
+  public InputStream getBody() {
+    if (body != null) {
+      return body;
+    } else {
+      return new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8));
+    }
   }
 
   public void setHeader(String header, String value) {
@@ -38,6 +45,12 @@ public abstract class Response {
   }
 
   public void setBody(String body) {
+    this.body = new ByteArrayInputStream(
+      body.getBytes(StandardCharsets.UTF_8)
+    );
+  }
+
+  public void setBody(InputStream body) {
     this.body = body;
   }
 

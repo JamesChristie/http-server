@@ -2,6 +2,10 @@ package com.muffledscreaming.httpserv.http;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.SequenceInputStream;
+import java.nio.charset.StandardCharsets;
 
 public class ResponseFormatter {
   private Response response;
@@ -10,14 +14,26 @@ public class ResponseFormatter {
     this.response = response;
   }
 
-  public String perform() {
+  public SequenceInputStream perform() {
+    return new SequenceInputStream(
+      getHeaderStream(),
+      response.getBody()
+    );
+  }
+
+  private ByteArrayInputStream getHeaderStream() {
+    return new ByteArrayInputStream(
+      getHeaderString().getBytes(StandardCharsets.UTF_8)
+    );
+  }
+
+  private String getHeaderString() {
     return String.format(
-      "HTTP/%s %s %s%s%s",
+      "HTTP/%s %s %s%s\r\n\r\n",
       response.getVersion(),
       response.getStatusCode(),
       response.getStatusMessage(),
-      formatHeaders(),
-      formatBody()
+      formatHeaders()
     );
   }
 
@@ -37,13 +53,5 @@ public class ResponseFormatter {
     }
 
     return String.join("\r\n", pairedHeaders);
-  }
-
-  private String formatBody() {
-    if (response.getBody() == null) {
-      return "";
-    } else {
-      return "\r\n\r\n" + response.getBody();
-    }
   }
 }

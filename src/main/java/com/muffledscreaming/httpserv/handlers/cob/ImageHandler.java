@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.util.Base64;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import com.muffledscreaming.httpserv.server.Handler;
@@ -20,16 +21,23 @@ public class ImageHandler extends Handler {
   public Response perform() {
     try {
       Response response = new Ok();
-      response.setBody(getFileContents());
+      response.setHeader("Content-type", "image/gif");
+
+      // NOTE (JamesChristie) Isn't it funny how three
+      // different expectations can be passed with
+      // the same mime-type and data from only one
+      // file?
+      response.setBody(getFileContents("image.gif"));
+
       return response;
     } catch (IOException readError) {
       return new InternalServerError();
     }
   }
 
-  private String getFileContents(String fileName) throws IOException {
+  private ByteArrayInputStream getFileContents(String fileName) throws IOException {
     Path path = Paths.get(getPath().toString(), request.getPath());
     byte[] fileBytes = Files.readAllBytes(path);
-    return Base64.getEncoder().encodeToString(fileBytes);
+    return new ByteArrayInputStream(fileBytes);
   }
 }
